@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../auth/logic/auth_bloc.dart';
+import '../courses/presentation/screens/course_list_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -34,7 +35,10 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                // In future: Navigate to Course List
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const CourseListScreen()),
+                );
               },
               child: const Text('Go to Courses'),
             )
