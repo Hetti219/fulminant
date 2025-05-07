@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/course_bloc.dart';
-import '../../data/models/course_model.dart';
 import 'module_list_screen.dart';
 
 class CourseListScreen extends StatelessWidget {

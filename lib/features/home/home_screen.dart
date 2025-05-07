@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../auth/logic/auth_bloc.dart';
-import '../courses/presentation/screens/course_list_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -19,6 +18,7 @@ class HomeScreen extends StatelessWidget {
             icon: const Icon(Icons.logout),
             onPressed: () {
               context.read<AuthBloc>().add(AuthLogoutRequested());
+              Navigator.pushReplacementNamed(context, '/login');
             },
           ),
         ],
@@ -35,10 +35,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const CourseListScreen()),
-                );
+                Navigator.pushReplacementNamed(context, '/course');
               },
               child: const Text('Go to Courses'),
             )
