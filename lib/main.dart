@@ -17,6 +17,7 @@ void main() async {
     BlocProvider(
       create: (_) => AuthBloc(AuthRepository()),
       child: MaterialApp(
+        themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
         initialRoute: '/login',
         onGenerateRoute: generateRoute,

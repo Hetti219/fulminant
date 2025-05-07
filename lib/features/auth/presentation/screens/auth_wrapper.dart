@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../logic/auth_bloc.dart';
 import 'login_screen.dart';
 import '../../../home/home_screen.dart'; // dummy screen for now
 
@@ -15,7 +13,8 @@ class AuthWrapper extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Show splash/loading screen
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(
+              body: Center(child: CircularProgressIndicator()));
         } else if (snapshot.hasData) {
           // Logged in
           return const HomeScreen();
