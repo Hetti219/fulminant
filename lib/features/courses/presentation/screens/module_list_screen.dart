@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fulminant/features/courses/presentation/screens/module_activity_screen.dart';
 
 class ModuleListScreen extends StatelessWidget {
   final String courseId;
@@ -50,7 +51,14 @@ class ModuleListScreen extends StatelessWidget {
                 title: Text(title),
                 subtitle: Text(content),
                 onTap: () {
-                  // Later: Navigate to module activity/questions
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ModuleActivityScreen(
+                            courseId: courseId,
+                            moduleId: docs[index].id,
+                            moduleTitle: title),
+                      ));
                 },
               );
             },
