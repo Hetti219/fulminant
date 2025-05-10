@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fulminant/features/courses/presentation/screens/course_list_screen.dart';
-import 'package:fulminant/features/leaderboard/screens/leaderboard_screen.dart';
+import '../features/courses/presentation/screens/course_list_screen.dart';
+import '../features/leaderboard/screens/leaderboard_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/signup_screen.dart';
-import '../features/home/home_screen.dart'; // create later
+import '../features/home/home_screen.dart';
+import '../features/profile/screens/profile_screen.dart'; // create later
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -17,6 +18,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const CourseListScreen());
     case '/leaderboard':
       return MaterialPageRoute(builder: (_) => const LeaderboardScreen());
+    case '/profile':
+      return MaterialPageRoute(builder: (_) => const ProfileScreen());
     default:
       return MaterialPageRoute(builder: (_) => const LoginScreen());
   }

@@ -44,7 +44,13 @@ class HomeScreen extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, '/leaderboard');
               },
               child: const Text("View Leaderboard"),
-            )
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/profile');
+              },
+              child: const Text("View Profile"),
+            ),
           ],
         ),
       ),
