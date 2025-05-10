@@ -58,11 +58,16 @@ class _ModuleActivityScreenState extends State<ModuleActivityScreen> {
     if (user != null) {
       final userDoc =
           FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+      // Option 1: Safe way using transaction (recommended)
       await FirebaseFirestore.instance.runTransaction((txn) async {
         final snapshot = await txn.get(userDoc);
         final currentPoints = snapshot.data()?['points'] ?? 0;
         txn.update(userDoc, {'points': currentPoints + _score});
       });
+
+      // OR Option 2: Quick way (only if race conditions aren't an issue)
+      // await userDoc.update({'points': FieldValue.increment(_score)});
     }
 
     if (mounted) {
