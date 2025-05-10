@@ -38,6 +38,12 @@ class HomeScreen extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, '/course');
               },
               child: const Text('Go to Courses'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/leaderboard');
+              },
+              child: const Text("View Leaderboard"),
             )
           ],
         ),
