@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LeaderboardScreen extends StatelessWidget {
@@ -6,13 +7,15 @@ class LeaderboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(title: const Text("Leaderboard")),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('users')
             .orderBy('points', descending: true)
-            .limit(50) // optional limit
+            .limit(100)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -31,11 +34,23 @@ class LeaderboardScreen extends StatelessWidget {
               final data = users[index].data() as Map<String, dynamic>;
               final name = data['name'] ?? 'Unnamed';
               final points = data['points'] ?? 0;
+              final userId = users[index].id;
 
-              return ListTile(
-                leading: CircleAvatar(child: Text('${index + 1}')),
-                title: Text(name),
-                trailing: Text("$points pts"),
+              final isCurrentUser = userId == currentUser?.uid;
+
+              return Container(
+                color: isCurrentUser ? Colors.yellow.withOpacity(0.2) : null,
+                child: ListTile(
+                  leading: CircleAvatar(child: Text('${index + 1}')),
+                  title: Text(
+                    isCurrentUser ? "$name (You)" : name,
+                    style: TextStyle(
+                      fontWeight:
+                          isCurrentUser ? FontWeight.bold : FontWeight.normal,
+                    ),
+                  ),
+                  trailing: Text("$points pts"),
+                ),
               );
             },
           );
