@@ -59,15 +59,22 @@ class _ModuleActivityScreenState extends State<ModuleActivityScreen> {
       final userDoc =
           FirebaseFirestore.instance.collection('users').doc(user.uid);
 
-      // Option 1: Safe way using transaction (recommended)
-      await FirebaseFirestore.instance.runTransaction((txn) async {
-        final snapshot = await txn.get(userDoc);
-        final currentPoints = snapshot.data()?['points'] ?? 0;
-        txn.update(userDoc, {'points': currentPoints + _score});
+      // 1. Update points
+      await userDoc.update({
+        'points': FieldValue.increment(_score),
       });
 
-      // OR Option 2: Quick way (only if race conditions aren't an issue)
-      // await userDoc.update({'points': FieldValue.increment(_score)});
+      // 2. Add to completed modules subcollection
+      final completedModulesRef =
+          userDoc.collection('completedModules').doc(widget.moduleId);
+
+      await completedModulesRef.set({
+        'courseId': widget.courseId,
+        'moduleId': widget.moduleId,
+        'title': widget.moduleTitle,
+        'pointsEarned': _score,
+        'completedAt': DateTime.now().toUtc().toIso8601String(),
+      });
     }
 
     if (mounted) {

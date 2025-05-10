@@ -58,7 +58,47 @@ class ProfileScreen extends StatelessWidget {
                 const Text("📚 Completed Modules",
                     style: TextStyle(fontSize: 16)),
                 const SizedBox(height: 10),
-                const Text("(Coming soon...)"),
+                Expanded(
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream:
+                        userDocRef.collection('completedModules').snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      final modules = snapshot.data?.docs ?? [];
+
+                      if (modules.isEmpty) {
+                        return const Text("No modules completed yet.");
+                      }
+
+                      return ListView.builder(
+                        itemCount: modules.length,
+                        itemBuilder: (context, index) {
+                          final data =
+                              modules[index].data() as Map<String, dynamic>;
+                          final title = data['title'] ?? 'Module';
+                          final points = data['pointsEarned'] ?? 0;
+                          final date = data['completedAt'] != null
+                              ? DateTime.parse(data['completedAt']).toLocal()
+                              : null;
+
+                          return ListTile(
+                            leading: const Icon(Icons.check_circle_outline),
+                            title: Text(title),
+                            subtitle: Text(
+                              date != null
+                                  ? 'Completed on ${date.toLocal().toString().split(' ')[0]}'
+                                  : '',
+                            ),
+                            trailing: Text("+$points pts"),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           );
