@@ -61,7 +61,7 @@ class _AuthFormState extends State<AuthForm> {
               if (!_isLogin) ...[
                 TextFormField(
                   controller: _nameController,
-                  key: const ValueKey('fullname'),
+                  key: const ValueKey('name'),
                   decoration: const InputDecoration(labelText: 'Full Name'),
                   validator: (value) {
                     if (value == null || value.trim().length < 3) {
