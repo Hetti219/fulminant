@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
                 actionButtonText: 'Login',
                 toggleText: 'Don’t have an account? Sign up',
                 onToggle: () => _navigateToSignUp(context),
-                onSubmit: (email, password) {
+                onSubmit: (email, password, name, dob) {
                   context
                       .read<AuthBloc>()
                       .add(AuthLoginRequested(email, password));

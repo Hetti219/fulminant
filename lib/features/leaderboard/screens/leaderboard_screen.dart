@@ -10,7 +10,10 @@ class LeaderboardScreen extends StatelessWidget {
     final currentUser = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Leaderboard")),
+      appBar: AppBar(
+        title: const Text("Leaderboard"),
+        automaticallyImplyLeading: true,
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('users')
@@ -39,7 +42,7 @@ class LeaderboardScreen extends StatelessWidget {
               final isCurrentUser = userId == currentUser?.uid;
 
               return Container(
-                color: isCurrentUser ? Colors.yellow.withOpacity(0.2) : null,
+                color: isCurrentUser ? Colors.yellow : null,
                 child: ListTile(
                   leading: CircleAvatar(child: Text('${index + 1}')),
                   title: Text(

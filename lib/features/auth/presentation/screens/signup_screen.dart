@@ -32,10 +32,10 @@ class SignupScreen extends StatelessWidget {
                 actionButtonText: 'Create Account',
                 toggleText: 'Already have an account? Login',
                 onToggle: () => _navigateToLogin(context),
-                onSubmit: (email, password) {
+                onSubmit: (email, password, name, dob) {
                   context
                       .read<AuthBloc>()
-                      .add(AuthSignUpRequested(email, password));
+                      .add(AuthSignUpRequested(email, password, name!, dob!));
                 },
               ),
             ),

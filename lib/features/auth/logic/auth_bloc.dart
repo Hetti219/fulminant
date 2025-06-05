@@ -14,7 +14,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthSignUpRequested>((event, emit) async {
       emit(AuthLoading());
       try {
-        await _authRepo.signUp(email: event.email, password: event.password);
+        final userCredential = await _authRepo.signUp(
+          email: event.email,
+          password: event.password,
+        );
+
+        final uid = userCredential.user?.uid;
+
+        // Store additional user info in Firestore
+        await FirebaseFirestore.instance.collection('users').doc(uid).set({
+          'name': event.name,
+          'email': event.email,
+          'dateOfBirth': event.dob.toIso8601String(),
+          'points': 0,
+        });
+
         emit(AuthSuccess());
       } catch (e) {
         emit(AuthFailure(e.toString()));
