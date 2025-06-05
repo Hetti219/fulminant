@@ -42,7 +42,7 @@ class LeaderboardScreen extends StatelessWidget {
               final isCurrentUser = userId == currentUser?.uid;
 
               return Container(
-                color: isCurrentUser ? Colors.yellow : null,
+                color: isCurrentUser ? Color(0xFF818CF8) : null,
                 child: ListTile(
                   leading: CircleAvatar(child: Text('${index + 1}')),
                   title: Text(
