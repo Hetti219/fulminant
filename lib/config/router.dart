@@ -4,7 +4,7 @@ import '../features/leaderboard/screens/leaderboard_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/signup_screen.dart';
 import '../features/home/home_screen.dart';
-import '../features/profile/screens/profile_screen.dart'; // create later
+import '../features/profile/screens/profile_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {

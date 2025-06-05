@@ -35,21 +35,21 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/course');
+                Navigator.pushNamed(context, '/course');
               },
               child: const Text('Go to Courses'),
             ),
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/leaderboard');
+                Navigator.pushNamed(context, '/leaderboard');
               },
               child: const Text("View Leaderboard"),
             ),
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/profile');
+                Navigator.pushNamed(context, '/profile');
               },
               child: const Text("View Profile"),
             ),
