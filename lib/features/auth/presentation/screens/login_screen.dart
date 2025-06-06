@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
               SnackBar(content: Text(state.error)),
             );
           } else if (state is AuthSuccess) {
-            Navigator.pushReplacementNamed(context, '/home');
+            Navigator.pushNamed(context, '/home');
           }
         },
         builder: (context, state) {
