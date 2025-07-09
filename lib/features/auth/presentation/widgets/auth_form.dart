@@ -66,7 +66,7 @@ class _AuthFormState extends State<AuthForm> {
       if (email.isEmpty) {
         _emailValid = false;
         _emailError = null;
-      } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+      } else if (!RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
         _emailValid = false;
         _emailError = 'Please enter a valid email address';
       } else {
@@ -143,9 +143,13 @@ class _AuthFormState extends State<AuthForm> {
 
     return Column(
       children: [
-        Text(
-          widget.title,
-          style: Theme.of(context).textTheme.headlineMedium,
+        AppBar(
+          title: Text(
+            widget.title,
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+          centerTitle: true,
         ),
         const SizedBox(height: 20),
         Form(
