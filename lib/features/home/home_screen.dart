@@ -36,13 +36,6 @@ class HomeScreen extends StatelessWidget {
                 titlePadding: const EdgeInsets.only(left: 20, bottom: 16),
               ),
               actions: [
-                IconButton(
-                  icon: const Icon(Icons.notifications_outlined,
-                      color: Colors.white),
-                  onPressed: () {
-                    // TODO: Implement notifications
-                  },
-                ),
                 PopupMenuButton<String>(
                   icon: const Icon(Icons.more_vert, color: Colors.white),
                   onSelected: (value) {
@@ -160,9 +153,6 @@ class HomeScreen extends StatelessWidget {
     final userPoints = userData?['points'] ?? 0;
     final totalCourses = coursesSnapshot.data?.docs.length ?? 0;
 
-    // Calculate streak (you'll need to implement streak logic based on your needs)
-    final streak = _calculateStreak(userData);
-
     return Column(
       children: [
         Row(
@@ -174,16 +164,6 @@ class HomeScreen extends StatelessWidget {
                 userPoints.toString(),
                 Icons.stars,
                 Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _buildStatCard(
-                context,
-                'Streak',
-                '$streak days',
-                Icons.local_fire_department,
-                Colors.orange,
               ),
             ),
           ],
@@ -202,12 +182,22 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             Expanded(
-              child: _buildStatCard(
-                context,
-                'Rank',
-                '#--', // You'll need to implement ranking logic
-                Icons.emoji_events,
-                Colors.amber,
+              child: FutureBuilder<int>(
+                future: _getCurrentUserRank(),
+                builder: (context, snapshot) {
+                  String rankText = '#--';
+                  if (snapshot.hasData && snapshot.data! > 0) {
+                    rankText = '#${snapshot.data}';
+                  }
+
+                  return _buildStatCard(
+                    context,
+                    'Rank',
+                    rankText,
+                    Icons.emoji_events,
+                    Colors.amber,
+                  );
+                },
               ),
             ),
           ],
@@ -262,12 +252,6 @@ class HomeScreen extends StatelessWidget {
   Color _getCourseColor(int index) {
     final colors = [Colors.blue, Colors.green, Colors.purple, Colors.orange];
     return colors[index % colors.length];
-  }
-
-  int _calculateStreak(Map<String, dynamic>? userData) {
-    // Implement your streak calculation logic here
-    // This could be based on daily login, completed lessons, etc.
-    return 7; // Placeholder
   }
 
   void _navigateToCourse(BuildContext context, String courseId) {
@@ -549,5 +533,33 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<int> _getCurrentUserRank() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) return 0;
+
+    try {
+      // Get current user's points first
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .get();
+
+      if (!userDoc.exists) return 0;
+
+      final currentUserPoints = userDoc.data()?['points'] ?? 0;
+
+      // Count users with higher points
+      final higherPointsQuery = await FirebaseFirestore.instance
+          .collection('users')
+          .where('points', isGreaterThan: currentUserPoints)
+          .get();
+
+      return higherPointsQuery.docs.length + 1; // +1 because rank starts at 1
+    } catch (e) {
+      print('Error getting user rank: $e');
+      return 0;
+    }
   }
 }
