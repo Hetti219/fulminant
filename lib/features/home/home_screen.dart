@@ -230,8 +230,6 @@ class HomeScreen extends StatelessWidget {
         final title = data['title'] ?? 'Untitled Course';
         final description = data['description'] ?? 'No description';
 
-        // You'll need to implement progress tracking
-        final progress = 0.0; // Placeholder
         final color = _getCourseColor(courses.indexOf(course));
 
         return Padding(
@@ -240,7 +238,6 @@ class HomeScreen extends StatelessWidget {
             context,
             title,
             description,
-            progress,
             color,
             () => _navigateToCourse(context, course.id),
           ),
@@ -383,7 +380,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildCourseCard(BuildContext context, String title, String subtitle,
-      double progress, Color color, VoidCallback onTap) {
+      Color color, VoidCallback onTap) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
@@ -429,19 +426,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
-                  LinearProgressIndicator(
-                    value: progress,
-                    backgroundColor: Colors.grey.shade200,
-                    valueColor: AlwaysStoppedAnimation<Color>(color),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '${(progress * 100).toInt()}% complete',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey.shade600,
-                        ),
                   ),
                 ],
               ),
