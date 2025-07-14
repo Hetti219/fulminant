@@ -150,6 +150,7 @@ class _AuthFormState extends State<AuthForm> {
           ),
           backgroundColor: Color.fromRGBO(0, 0, 0, 0),
           centerTitle: true,
+          automaticallyImplyLeading: false,
         ),
         const SizedBox(height: 20),
         Form(

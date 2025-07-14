@@ -41,7 +41,8 @@ class HomeScreen extends StatelessWidget {
                   onSelected: (value) {
                     if (value == 'logout') {
                       context.read<AuthBloc>().add(AuthLogoutRequested());
-                      Navigator.pushReplacementNamed(context, '/login');
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/login', (route) => false);
                     }
                   },
                   itemBuilder: (context) => [
